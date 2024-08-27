@@ -17,7 +17,7 @@ jobs:
       matrix:
         # https://github.com/actions/runner-images/blob/main/images/macos/macos-13-Readme.md
         # https://github.com/actions/runner-images/blob/main/images/macos/macos-14-arm64-Readme.md
-        os: [macos-13, macos-14]
+        os: [macos-14]
     name: Build
     runs-on: ${{ matrix.os }}
 
@@ -36,3 +36,8 @@ jobs:
       - run: ./build-app-bundle-debug.sh --codesign-identity -
       - run: ./run-tests.sh
       - run: ./build-app-bundle-release.sh --codesign-identity -
+      - name: Archive zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifact
+          path: .release/AeroSpace-v*.zip
